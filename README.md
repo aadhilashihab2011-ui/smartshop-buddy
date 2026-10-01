@@ -2,86 +2,270 @@
 
 **Plan smarter. Shop better. Waste less.**
 
-SmartShop Buddy is a full-stack family shopping companion that bridges a physical kit (Foldable Reusable Cloth Bag, 3 Colorful Kids' Choice Tokens, and Food Organizer Labels) with a digital planning and home inventory application.
+**Live App:** https://smartshop-buddy.ai.studio/
+
+SmartShop Buddy is a full-stack family shopping companion that connects a digital shopping and home-inventory application with a simple physical kit: a foldable reusable cloth bag, 3 Kids' Choice Tokens, and food organizer labels.
+
+It helps families plan shopping before leaving home, check what they already have, reduce unnecessary purchases and repeat trips, encourage reusable bags, and make children's shopping choices more limited and thoughtful.
 
 ---
 
-## Core Journey
+## The Problem
+
+Shopping can become stressful and wasteful when it is not properly planned.
+
+People may forget items they need and make additional trips to the shop. They may also buy things they already have at home, leading to unnecessary purchases and, especially with food, items being forgotten or wasted.
+
+Single-use plastic bags also contribute to plastic waste.
+
+Shopping with children can create another challenge, as children may repeatedly ask for different things while shopping.
+
+SmartShop Buddy brings these problems together into one simple system.
+
+---
+
+## Our Solution
+
+SmartShop Buddy connects **home inventory → shopping planning → shopping → home organization** into one journey.
+
+### Core Journey
 
 **Plan → Choose → Shop → Organize → Waste Less**
 
-1. **Before Shopping (My Kitchen)**: Track what your family already has at home by category, quantity, and shelf notes.
-2. **Plan (Smart Shopping List)**: Create a shopping list with automatic kitchen-inventory checking. If you enter an item already in your kitchen (e.g., *Milk*), SmartShop Buddy alerts you (`"You already have Milk at home. Your kitchen currently has 2 packets."`) with options to **Don't Add** or **Add Anyway**.
-3. **Prepare (Kids' Choice Tokens & Reusable Bag)**: Set the number of Kids' Choice Tokens for the trip (e.g., 3 tokens) and confirm your foldable reusable cloth bag.
-4. **Shop (In-Store Shopping Mode)**: Check off items as you shop (`3 / 7 items completed`), confirm your reusable bag, and let children spend tokens mindfully (`3 → 2 → 1 → 0`, never negative).
-5. **After Shopping (Summary, Inventory Update & History)**: Review the trip summary, add bought quantities directly to your kitchen inventory (`Milk: 1 packet + 2 packets = 3 packets`), and keep a per-account history of completed trips.
+1. **My Kitchen**
+   Track what your family already has at home by item, quantity, category, and notes.
+
+2. **Smart Shopping List**
+   Create a shopping list and compare items with the current kitchen inventory. The app can identify items that are already available or partially available.
+
+3. **Kids' Choice Tokens**
+   Children get a limited number of choices during a shopping trip. The physical kit contains 3 tokens, which are also tracked digitally in the app.
+
+4. **Shopping Mode**
+   Use the shopping list while inside the store, mark items as purchased, add forgotten items, and track Kids' Choice Tokens.
+
+5. **Reusable Bag Reminder**
+   Reminds users to bring the foldable reusable cloth bag before shopping.
+
+6. **Shopping Summary & Kitchen Update**
+   Review what was purchased and add purchased quantities to the home inventory.
+
+7. **Shopping History**
+   Completed shopping trips are saved so users can review previous trips.
+
+---
+
+## Key Features
+
+* 👨‍👩‍👧 Family-focused shopping planning
+* 🏠 Home kitchen inventory
+* 🛒 Smart shopping list
+* 🔎 Duplicate and quantity-aware checking
+* 🎟️ 3 Kids' Choice Tokens
+* ♻️ Reusable bag reminder
+* ✅ In-store Shopping Mode
+* 📦 Kitchen inventory updates after shopping
+* 📊 Shopping summaries
+* 🕘 Shopping history
+* 🔐 User accounts and separate user data
+* 📱 Responsive design for desktop and mobile
+
+---
+
+## How It Works
+
+**My Kitchen**
+
+Users first add the items they already have at home.
+
+↓
+
+**Smart Shopping List**
+
+When users add something they want to buy, SmartShop Buddy checks the kitchen inventory.
+
+For example:
+
+> Milk at home: 1 packet
+> Shopping list: 3 packets
+> SmartShop Buddy: You may still need to buy 2 packets.
+
+↓
+
+**Kids' Choice Tokens**
+
+The parent starts the shopping trip with 3 available choices.
+
+A child can use a token for an optional item.
+
+**3 → 2 → 1 → 0**
+
+↓
+
+**Shopping Mode**
+
+Users check off items as they shop and can add something they remembered during the trip.
+
+↓
+
+**Shopping Summary**
+
+The app summarizes the completed shopping trip.
+
+↓
+
+**Update My Kitchen**
+
+Purchased quantities can be added to the existing kitchen inventory.
+
+Example:
+
+**Milk: 1 packet + 2 purchased = 3 packets**
+
+↓
+
+**Shopping History**
+
+The completed trip is saved for future reference.
+
+---
+
+## Physical Kit
+
+The digital application is designed to work together with a simple physical kit containing:
+
+* **Foldable Reusable Cloth Bag** — encourages reusable shopping instead of relying on single-use plastic bags.
+* **3 Kids' Choice Tokens** — gives children a limited number of choices during a shopping trip.
+* **Food Organizer Labels** — helps organize food and household items at home.
+
+The physical kit and digital app are designed to support the same shopping journey.
 
 ---
 
 ## Technology Architecture
 
-- **Frontend (`src/`)**: React 19, TypeScript, Tailwind CSS v4, Lucide Icons.
-  - `src/components/AuthView.tsx`: Welcome screen, Sign Up, Log In, and Physical + Digital Kit overview.
-  - `src/components/KitchenSetupView.tsx`: Mandatory first-time setup wizard (`"Let's set up your kitchen"`).
-  - `src/components/DashboardView.tsx`: Personalized greeting, 4 live status cards, and quick navigation.
-  - `src/components/KitchenInventoryView.tsx`: Full CRUD kitchen inventory + Home Organization section connected to physical Food Organizer Labels.
-  - `src/components/ShoppingListView.tsx`: Smart shopping list with real-time duplicate detection against My Kitchen.
-  - `src/components/KidsTokensView.tsx`: Positive Kids' Choice Token counter and parent reset controls.
-  - `src/components/ShoppingModeView.tsx`: In-store checklist, reusable bag reminder, token counter, and post-shopping summary + 1-click kitchen inventory update.
-  - `src/components/HistoryView.tsx`: Per-user archive of completed shopping trips.
-  - `src/components/ProfileView.tsx`: Account settings, logout, kit guide, and documentation.
-- **Backend (`server.ts`)**: Node.js + Express REST API (`/api/auth/*`, `/api/kitchen/*`, `/api/shopping-list/*`, `/api/tokens/*`, `/api/shopping-session/*`, `/api/shopping-trips/*`).
-- **Database / Persistence (`server/db.ts`)**: Persistent JSON file database (`data/smartshop_db.json`) with scrypt password hashing, Bearer token authentication, and strict `userId` data isolation so different users can never see or modify each other's data.
+### Frontend
+
+* React 19
+* TypeScript
+* Tailwind CSS v4
+* Lucide Icons
+
+### Backend
+
+* Node.js
+* Express
+* REST API
+
+### Persistence
+
+* JSON-based persistent database
+* Scrypt password hashing
+* Bearer token authentication
+* User-specific data isolation
+
+### Main Application Components
+
+* `AuthView.tsx` — Sign Up, Log In, and kit overview
+* `KitchenSetupView.tsx` — First-time kitchen setup
+* `DashboardView.tsx` — Main dashboard
+* `KitchenInventoryView.tsx` — Kitchen inventory and organization
+* `ShoppingListView.tsx` — Smart shopping list
+* `KidsTokensView.tsx` — Kids' Choice Tokens
+* `ShoppingModeView.tsx` — In-store shopping experience
+* `HistoryView.tsx` — Shopping history
+* `ProfileView.tsx` — Account settings and kit guide
 
 ---
 
 ## Installation & Local Development
 
 ### Prerequisites
-- Node.js 18+ and npm
 
-### 1. Install Dependencies
+* Node.js 18+
+* npm
+
+### Install Dependencies
+
 ```bash
 npm install
 ```
 
-### 2. Start the Full-Stack Development Server
+### Start the Development Server
+
 ```bash
 npm run dev
 ```
-The application runs on `http://localhost:3000` (serving both the Express `/api/*` backend and Vite React frontend).
+
+The application runs on:
+
+```text
+http://localhost:3000
+```
+
+The Express backend and Vite frontend are served together.
 
 ---
 
-## Production Build & Deployment
+## Production Build
 
-### 1. Build the Frontend Assets
+### Build
+
 ```bash
 npm run build
 ```
-This compiles the React + TypeScript application into the `dist/` directory.
 
-### 2. Run in Production Mode
+### Start
+
 ```bash
 NODE_ENV=production npm start
 ```
-In production mode, `server.ts` serves the compiled static bundle from `dist/` alongside the `/api/*` REST routes on port `3000`.
 
-### Deploying to Cloud Run / Render / Railway / Fly.io
-- **Build Command**: `npm install && npm run build`
-- **Start Command**: `NODE_ENV=production npm start`
-- **Port**: `3000`
-- **Persistent Volume (Optional)**: Mount a persistent volume at `/app/data` to preserve `data/smartshop_db.json` across container redeployments.
+The production server serves the compiled frontend together with the REST API.
 
 ---
 
-## 3–5 Minute Hackathon Demo Script
+## Hackathon Demo Flow
 
-1. **Create Account / Log In**: Click **Create Account** on the Welcome screen (or click **Try Demo Account (Aadhila)**).
-2. **First-Time Kitchen Setup**: Add existing kitchen items (or click **Quick-Fill Example Kitchen** to add *Milk — 2 packets, Rice — 5 kg, Eggs — 10, Bread — 1 packet, Apples — 6, Cereal — 1 box*), then click **Kitchen Setup Complete**.
-3. **Dashboard**: View your personalized dashboard (`"Hi, Aadhila! Ready to shop smarter?"`).
-4. **Duplicate Warning in Smart Shopping List**: Open **Shopping List**, enter `Milk`, and click **Add Item** to demonstrate the alert: *"You already have Milk at home. Your kitchen currently has 2 packets."* Choose **Don't Add** (or **Add Anyway**).
-5. **Add Genuinely Needed Item**: Enter `Vegetables` (`1 bag`, *Fruits & Vegetables*) and add it to the list.
-6. **Set Kids' Choice Tokens**: Open **Kids' Tokens** and verify today's allowance is set to `3 tokens`.
-7. **Enter Shopping Mode**: Open **Shopping Mode**, confirm the **♻️ Reusable Bag** reminder (**Yes, I'm ready**), mark items as bought, and click **Use 1 Token**.
-8. **Finish Shopping & Update Kitchen**: Click **Finish Shopping** to view the **Shopping Complete!** summary, then click **Update Kitchen Inventory** to add bought quantities directly to **My Kitchen** and view the saved trip in **History**.
+A suggested demonstration flow:
+
+1. Create an account or use the available demo account.
+2. Complete the first-time **My Kitchen** setup.
+3. Add a few items that are already available at home.
+4. Open **Shopping List**.
+5. Add an item that already exists in the kitchen to demonstrate the inventory check.
+6. Add an item that is genuinely needed.
+7. Start a shopping trip.
+8. Confirm the **Reusable Bag** reminder.
+9. Use the **Kids' Choice Tokens**.
+10. Open **Shopping Mode** and mark items as purchased.
+11. Finish the shopping trip.
+12. Show the **Shopping Summary**.
+13. Update **My Kitchen** with the purchased quantities.
+14. Open **Shopping History** to show the completed trip.
+
+---
+
+## AI Assistance Disclosure
+
+AI tools were used during the development of SmartShop Buddy to assist with application development, feature implementation, debugging, refinement, and documentation.
+
+The project concept, problem definition, feature requirements, product flow, physical-kit concept, and final project direction were defined and reviewed by the project creator.
+
+---
+
+## Project Goal
+
+SmartShop Buddy aims to make everyday shopping more organized and thoughtful by helping families:
+
+* Plan before shopping
+* Remember what they actually need
+* Check what they already have
+* Reduce unnecessary purchases
+* Reduce repeat shopping trips
+* Encourage reusable shopping bags
+* Give children limited choices
+* Organize items at home
+
+**Plan smarter. Shop better. Waste less.**
+
