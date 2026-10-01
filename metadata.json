@@ -1,0 +1,6 @@
+{
+  "name": "SmartShop Buddy",
+  "description": "A smart family shopping companion to track home kitchen inventory, avoid duplicate purchases, manage kids' choice tokens, and shop sustainably with reusable bag reminders.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
